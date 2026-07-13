@@ -1,3 +1,11 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "redirects": [
+    {
+      "source": "ginecologopabloeglez.com.ar/:path*",
+      "destination": "https://www.ginecologopabloeglez.com.ar/:path*",
+      "permanent": true,
+      "has": [{ "type": "host", "value": "ginecologopabloeglez.com.ar" }]
+    }
+  ]
 }

@@ -517,3 +517,39 @@ Siguiente recomendado para llegar a >90 en todas:
 Files Modified (docs only):
 - docs/ROADMAP.md (items 2 y 5 → Done)
 - docs/PROJECT_STATUS.md (deploy + GA + estado Lighthouse)
+
+---
+
+## Sesión 2026-07-13 (tarde) — Optimización de Performance post-Lighthouse
+
+Contexto: el usuario corrió `npx lighthouse https://ginecologopabloeglez.com.ar/` y obtuvo Performance **62** (A11y 95, BP 100, SEO 100). Se auditaron las causas y se corrigieron.
+
+Hallazgos del reporte (prod, www):
+- LCP 8.5s: `HeroImageMobile` era PNG de **686KB**; `HeroImage` PNG 662KB. LCP discovery fallaba (SPA: la imagen se descubre recién al montar React).
+- Unused JS 186KB de bundle de 681KB/197KB gzip (todas las rutas + framer-motion + radix en un solo chunk). La mayoría del "unused" era GA (159KB, async).
+- Redirect 1070ms (non-www → www). Render-blocking CSS 8KB. Document latency 500ms.
+- BUG SEO crítico: index.html / PageHelmet / sitemap.xml / robots.txt / constants apuntaban a `ginecologiamendoza.com.ar` (dominio equivocado), no a `ginecologopabloeglez.com.ar`.
+
+Cambios aplicados:
+- Dominio corregido a `https://www.ginecologopabloeglez.com.ar` en index.html, src/components/PageHelmet.tsx, src/lib/constants.ts, public/sitemap.xml, public/robots.txt.
+- Hero PNG → AVIF (26–27KB) + WebP (31–34KB) en `public/images/` (de ~1.35MB → ~120KB, −91%).
+- `index.html`: `<link rel=preload as=image>` por breakpoint (webp) para el LCP.
+- `HeroSection.tsx`: `<picture>` progresivo avif/webp + `fetchPriority=high`.
+- `router.tsx`: 10 rutas secundarias con `React.lazy` (Homepage queda eager). `RootLayout.tsx`: `<Suspense>` en `<Outlet>`.
+- `vercel.json`: redirect no-www → www (canonical).
+
+Resultado (Lighthouse local sobre `vite preview` del nuevo build):
+- Performance **62 → 96**. FCP 4.7s→1.8s, LCP 8.5s→2.2s, Speed Index 5.3s→1.8s, TTI 8.5s→3.5s, CLS 0.
+- A11y 95, BP 100, SEO 100 (sin cambios).
+- Bundle inicial JS: 681KB/197KB gzip → 339KB/108KB gzip. Resto de rutas en chunks separados.
+
+Notas / siguientes:
+- El número oficial en prod debe medirse en `https://www.ginecologopabloeglez.com.ar/` (sin redirect) tras el deploy.
+- `unused-javascript` sigue marcando por GA (async, no bloquea LCP); optimización opcional (cargar GA en idle).
+- `og-image.png` (582KB) no es LCP; se puede optimizar aparte si se desea.
+
+Files Modified:
+- index.html, src/components/sections/HeroSection.tsx, src/lib/constants.ts, src/router.tsx, src/layouts/RootLayout.tsx, vercel.json, public/images/* (nuevos), public/sitemap.xml, public/robots.txt
+- docs/PROJECT_STATUS.md, docs/TASK_TRACKER.md, docs/DEVELOPMENT_LOG.md (este log)
+
+Build: `npm run build` OK. Lint: 0 errores (solo warnings react-refresh preexistentes en button.tsx/router.tsx).

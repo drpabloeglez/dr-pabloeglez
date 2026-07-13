@@ -85,9 +85,12 @@ Build (`tsc -b && vite build`) passes. Lint (eslint) passes (1 known shadcn warn
 | Content refinements | ✅ Done — title, images, wording, types of consulta, surgery mention, annual checkup, contraception |
 | Blog content expansion (20 articles + typography + category filter + CTA + related posts) | ✅ Done — 2026-06-30 |
 | Hotfix: stray `>` after frontmatter in 14 MDX files | ✅ Done — 2026-06-30 |
-| GA placeholder ID | ⏳ |
-| Lighthouse audit | ⏳ |
-| Vercel deploy | ⏳ |
+| GA placeholder ID | ✅ Done — `G-51S46CPSE9` confirmed |
+| Lighthouse audit | ✅ Done — 62→96 (Performance) after hero image + code-split optimization (2026-07-13) |
+| Vercel deploy | ✅ Done (2026-07-13) |
+| Optimize hero images (PNG→AVIF/WebP) + preload | ✅ Done (2026-07-13) |
+| Route-level code-splitting (React.lazy) | ✅ Done (2026-07-13) |
+| Fix wrong canonical/OG domain | ✅ Done — `ginecologiamendoza.com.ar` → `www.ginecologopabloeglez.com.ar` (2026-07-13) |
 | Search Console setup | ⏳ |
 | Google Business Profile | ⏳ |
 

@@ -66,8 +66,9 @@ All 18 V1 tasks complete. React 19 + TS 6 + Vite 8 + Tailwind v4 + shadcn/ui. No
 | Blog content (20 new articles + typography + category filter + CTA + related posts) | ✅ Done — 2026-06-30 |
 | Replace GA placeholder ID | ✅ Done — Measurement ID `G-51S46CPSE9` confirmed in index.html (2026-07-13); `15250766439` is the internal Stream ID, not used in the gtag snippet |
 | Confirm Schema.org `MedicalClinic` name + `Physician.telephone` | ⏳ Pending (needs doctor confirmation) |
-| Production Lighthouse audit | ⏳ Pending — sandbox Chrome hangs; run PageSpeed Insights on live URL (ginecologiamendoza.com.ar) |
-| Optimize bundle size (HeroImage PNG ~660–702KB, JS 681KB/197KB gzip) | ⏳ Pending — JS inflated by eager MDX `import.meta.glob` (all 19 posts in main chunk) |
+| Production Lighthouse audit | ✅ Done — 2026-07-13. Initial live run: Performance **62**, A11y 95, BP 100, SEO 100. After optimization (hero AVIF/WebP + preload, route code-splitting, canonical www redirect): local preview Performance **96** (FCP 1.8s, LCP 2.2s, SI 1.8s, TTI 3.5s, CLS 0). Re-run on live www after deploy. |
+| Optimize bundle size (HeroImage PNG ~660–702KB, JS 681KB/197KB gzip) | ✅ Done — 2026-07-13. Hero → AVIF (26–27KB) / WebP (31–34KB) in `public/images/` + `<link rel=preload>`; JS initial bundle 339KB/108KB gzip; 10 secondary routes lazy-split into separate chunks. |
+| Fix canonical/OG/sitemap/robots domain | ✅ Done — 2026-07-13. Site referenced wrong domain `ginecologiamendoza.com.ar` in index.html, PageHelmet, sitemap.xml, robots.txt, constants. Replaced with canonical `https://www.ginecologopabloeglez.com.ar` (SEO-correctness fix; Lighthouse SEO only validates syntax so it stayed 100). |
 | Deploy to Vercel | ✅ Done (user-deployed 2026-07-13) |
 | **Local SEO enrichment** — schema: `areaServed` (Mendoza/AR), `geo`, `openingHours`, `priceRange`, `hasCredential`, ES/EN `knowsAbout`; index.html: `x-default` hreflang, meta `geo.*`/`ICBM`, `theme-color`, `robots` | ✅ Done — 2026-07-13 |
 | Add Google Business Profile URL to `sameAs` (factor #1 de SEO local) | ⏳ Pending (needs real GBP URL) |

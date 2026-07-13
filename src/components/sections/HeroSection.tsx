@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { WHATSAPP_NUMBER, WHATSAPP_MSG, IMAGES } from '@/lib/constants'
+import { WHATSAPP_NUMBER, WHATSAPP_MSG } from '@/lib/constants'
 
 const container = {
   hidden: { opacity: 0 },
@@ -23,8 +23,18 @@ export default function HeroSection() {
         className="absolute inset-0"
       >
         <picture>
-          <source media="(min-width: 768px)" srcSet={IMAGES.hero} />
-          <img src={IMAGES.heroMobile} alt="" aria-hidden className="size-full object-cover" />
+          <source type="image/avif" media="(min-width: 768px)" srcSet="/images/hero.avif" />
+          <source type="image/webp" media="(min-width: 768px)" srcSet="/images/hero.webp" />
+          <source type="image/avif" media="(max-width: 767px)" srcSet="/images/hero-mobile.avif" />
+          <source type="image/webp" media="(max-width: 767px)" srcSet="/images/hero-mobile.webp" />
+          <img
+            src="/images/hero-mobile.webp"
+            alt=""
+            aria-hidden
+            fetchPriority="high"
+            decoding="async"
+            className="size-full object-cover"
+          />
         </picture>
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/30" />

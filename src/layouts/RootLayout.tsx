@@ -4,7 +4,7 @@ import { GlobalSchema } from '@/lib/schema'
 import { WHATSAPP_NUMBER, WHATSAPP_MSG } from '@/lib/constants'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
 import HomeFloat from '@/components/HomeFloat'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 
 const NAV_ITEMS = [
   { to: '/', label: 'Inicio' },
@@ -127,7 +127,9 @@ export default function RootLayout() {
         </AnimatePresence>
       </header>
       <main className="flex-1">
-        <Outlet />
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
       </main>
       <footer className="border-border/40 border-t py-8 text-center text-sm text-muted-foreground">
         <p>Dr. Pablo Eglez — Cirujano Ginecólogo — Mendoza, Argentina</p>

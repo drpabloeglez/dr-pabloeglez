@@ -6,7 +6,7 @@ interface PageHelmetProps {
   canonical?: string
 }
 
-const SITE_URL = 'https://ginecologiamendoza.com.ar'
+const SITE_URL = 'https://www.ginecologopabloeglez.com.ar'
 const OG_IMAGE = `${SITE_URL}/og-image.png`
 const SITE_NAME = 'Dr. Pablo Eglez — Ginecología Clínica y Quirúrgica en Mendoza'
 

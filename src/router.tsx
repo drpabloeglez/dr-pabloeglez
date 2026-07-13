@@ -1,16 +1,20 @@
 import { createBrowserRouter } from 'react-router-dom'
+import { lazy } from 'react'
 import RootLayout from '@/layouts/RootLayout'
 import HomePage from '@/pages/HomePage'
-import AboutPage from '@/pages/AboutPage'
-import ServicesPage from '@/pages/ServicesPage'
-import BlogPage from '@/pages/BlogPage'
-import BlogArticlePage from '@/pages/BlogArticlePage'
-import ContactPage from '@/pages/ContactPage'
-import ConsultaGinecologicaPage from '@/pages/ConsultaGinecologicaPage'
-import ControlGinecologicoPage from '@/pages/ControlGinecologicoPage'
-import SaludHormonalPage from '@/pages/SaludHormonalPage'
-import FertilidadPage from '@/pages/FertilidadPage'
-import AnticoncepcionPage from '@/pages/AnticoncepcionPage'
+
+// Code-split every route except the home page (the LCP/initial view) so their
+// code is fetched only when navigated to, shrinking the initial JS payload.
+const AboutPage = lazy(() => import('@/pages/AboutPage'))
+const ServicesPage = lazy(() => import('@/pages/ServicesPage'))
+const BlogPage = lazy(() => import('@/pages/BlogPage'))
+const BlogArticlePage = lazy(() => import('@/pages/BlogArticlePage'))
+const ContactPage = lazy(() => import('@/pages/ContactPage'))
+const ConsultaGinecologicaPage = lazy(() => import('@/pages/ConsultaGinecologicaPage'))
+const ControlGinecologicoPage = lazy(() => import('@/pages/ControlGinecologicoPage'))
+const SaludHormonalPage = lazy(() => import('@/pages/SaludHormonalPage'))
+const FertilidadPage = lazy(() => import('@/pages/FertilidadPage'))
+const AnticoncepcionPage = lazy(() => import('@/pages/AnticoncepcionPage'))
 
 export const router = createBrowserRouter([
   {
