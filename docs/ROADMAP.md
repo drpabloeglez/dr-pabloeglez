@@ -29,12 +29,17 @@ Finalize the MVP and deploy to production.
 | # | Item                                       | Priority | Effort | Notes                                          |
 | - | ------------------------------------------ | -------- | ------ | ---------------------------------------------- |
 | 1 | Mobile navigation menu                     | High     | 2h     | ✅ Responsive hamburger menu implemented.      |
-| 2 | Replace Google Analytics placeholder ID    | High     | 5min   | Use real GA4 property.                         |
+| 2 | Replace Google Analytics placeholder ID    | High     | 5min   | ✅ Measurement ID `G-51S46CPSE9` confirmed in index.html (2026-07-13). `15250766439` is the internal Stream ID, not used in the gtag snippet. |
 | 3 | Add doctor portrait                        | Medium   | 1h     | Replace placeholder graphics.                  |
 | 4 | Production Lighthouse audit                | Medium   | 1h     | Verify all scores above 90.                    |
-| 5 | Deploy to Vercel                           | High     | 30min  | Connect domain and enable HTTPS.               |
+| 5 | Deploy to Vercel                           | High     | 30min  | ✅ Deployed by user (2026-07-13). Connect custom domain + HTTPS. |
 | 6 | Verify Search Console setup                | High     | 30min  | Submit sitemap and index homepage.             |
 | 7 | Verify Google Business Profile consistency | High     | 30min  | Name, address and phone must match everywhere. |
+| 8 | Create/claim Google Business Profile & wire URL | High | 1h     | Add the real GBP URL to `BUSINESS.googleBusinessProfile` in `src/lib/constants.ts` so schema `sameAs` includes it (factor #1 de SEO local). |
+| 9 | Verify `geo` coordinates match GBP pin | High | 15min  | Confirm `-32.8908, -68.8272` (approx) equals the exact GBP map pin; fix in `BUSINESS.geo` if needed. |
+| 10 | Prerender meta tags (build-time) | Medium | 2–3h   | SPA injects meta client-side via react-helmet-async. Add build-time prerender so Google indexes faster. No backend required. |
+| 11 | Optimize hero & OG images | Medium | 1h     | `og-image.png` (~595 KB) and `HeroImage` PNGs (~660 KB+) exceed the Lighthouse budget; compress / convert to WebP. |
+| 12 | Add Search Console verification meta | High | 10min  | Insert `google-site-verification` in `index.html` after verifying the domain; complements sitemap submission (item 6). |
 
 ## Go-Live Criteria
 
@@ -311,4 +316,4 @@ Create the leading gynecology digital presence in Mendoza with:
 * Minimal operational complexity
 * Sustainable long-term growth
 
-Last updated: 2026-06-15*
+Last updated: 2026-07-13

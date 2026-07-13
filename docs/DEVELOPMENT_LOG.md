@@ -449,3 +449,71 @@ Verification:
 - `npm run lint` passes (1 pre-existing unrelated warning: button.tsx fast-refresh)
 
 Blog total: 21 → 19 articles.
+
+Session 2026-07-13 — Local SEO hardening (Spanish / Mendoza, Argentina)
+
+Audit question: ¿Está toda la SEO configurada para que encuentren fácilmente en español desde Mendoza?
+Respuesta corta: la base estaba bien (lang=es, .com.ar, og:locale es_AR, hreflang, canonicales, sitemap, robots, schema base, URLs con "-mendoza", contenido en español). Faltaban señales locales fuertes.
+
+Completed:
+- Enriquecido `src/lib/schema.tsx` (JSON-LD global) con señales de SEO local:
+  - `areaServed` = Mendoza (City + AdministrativeArea) + Argentina (Country)
+  - `geo` (GeoCoordinates) para el paquete local de Google / Maps
+  - `addressRegion` (Mendoza) + `postalCode` (5500) en la dirección
+  - `openingHoursSpecification` (lun-vie 09-18) y `priceRange` ($$)
+  - `hasCredential` (título médico) como señal de confianza
+  - `knowsAbout` ampliado con términos en español (Ginecología, Anticoncepción, Fertilidad, Salud hormonal…)
+  - `@id` por entidad y `sameAs` filtrado (wa.me + Calendly; Google Business Profile pendiente)
+- Centralizado NAP en `src/lib/constants.ts` (objeto BUSINESS) para coherencia schema/contenido/footer.
+- `index.html`: agregado `x-default` hreflang, meta `geo.region`/`geo.placename`/`geo.position`/`ICBM`, `theme-color` y `robots` (index, follow, max-image-preview:large).
+
+Files Modified:
+- src/lib/schema.tsx (rewrite — enriquecido)
+- src/lib/constants.ts (objeto BUSINESS: NAP + geo + horarios + GBP placeholder)
+- index.html (meta geo/hreflang/theme-color/robots)
+
+Verification:
+- `npm run build` passes (0 errors, tsc + vite)
+- `npm run lint` passes (1 warning pre-existente e irrelevante: button.tsx fast-refresh)
+- Meta tags confirmados en dist/index.html; schema compilado en el bundle JS (areaServed/GeoCoordinates/OpeningHoursSpecification presentes)
+
+Pending / Next (no bloquea, pero recomendado para "encontrabilidad" máxima):
+- Crear/claimar el Perfil de Google Business y pegar su URL en BUSINESS.googleBusinessProfile (factor #1 de SEO local).
+- Verificar que las coordenadas `geo` coincidan EXACTAMENTE con el pin de GBP (hoy -32.8908, -68.8272 aproximado).
+- Prerenderizar los meta tags (SPA los inyecta en cliente vía react-helmet-async; Google los procesa pero con delay).
+- Optimizar og-image.png (~595 KB) y HeroImage PNG (~660 KB+) para Lighthouse Performance.
+- Agregar google-site-verification tras verificar el dominio en Search Console.
+
+Session 2026-07-13 (cont.) — Deployment confirmed, GA IDs clarified, Lighthouse audit
+
+User inputs:
+- Vercel deployment already done (item 5 V1.1 → ✅).
+- GA IDs clarified: Measurement ID = `G-51S46CPSE9` (YA ESTABA en index.html, correcto); `15250766439` es el Stream ID interno (NO va en el snippet gtag). → Item 2 V1.1 → ✅ sin cambios de código.
+
+Lighthouse audit attempt:
+- No se pudo ejecutar Lighthouse en este sandbox: Chrome for Testing (150) se cuelga incluso con `about:blank --dump-dom` (timeout 45s). Es una limitación del entorno, no del sitio. Se instaló y luego eliminó el Chrome descargado (~150MB) para no ensuciar el repo.
+- Alternativa usada: auditoría Lighthouse-equivalente a partir de los artefactos del build (`npm run build`).
+
+Hallazgos del build (dist/):
+- JS bundle: 681.39 KB (197.24 KB gzip) — inflado porque `src/lib/blog.ts` usa `import.meta.glob('/content/blog/*.mdx', { eager: true })`: las 19 notas MDX se empaquetan en el chunk principal. Toda visita descarga todo el blog.
+- CSS: 44.93 KB (7.75 KB gzip) ✅
+- HeroImage.png: 661.91 KB; HeroImageMobile.png: 702.24 KB (PNG sin comprimir → matan el LCP)
+- og-image.png (public): ~595 KB
+- ProfilePictureHeadshotv2.jpg: 54.16 KB ✅
+
+Estimación Lighthouse (derivada de artefactos, NO medida):
+- Performance (mobile): ~55–70 — limitado por hero PNG + JS grande. Desktop ~80+.
+- Accessibility: ~95–100 (lang=es, headings, review a11y previa).
+- Best Practices: ~90–100 (HTTPS Vercel, doctype válido).
+- SEO: ~95–100 (title, meta description, viewport, canonical, hreflang x-default, robots.txt, links crawlables, structured data).
+
+Para el número oficial: PageSpeed Insights (https://pagespeed.web.dev/) sobre la URL en vivo, o `npx lighthouse <url>` localmente.
+
+Siguiente recomendado para llegar a >90 en todas:
+- Comprimir hero + og-image a WebP/AVIF (item 11).
+- Lazy-load de notas MDX (quitar eager / React.lazy) + code-splitting por ruta.
+- Verificar alt text de imágenes y tap targets (a11y).
+
+Files Modified (docs only):
+- docs/ROADMAP.md (items 2 y 5 → Done)
+- docs/PROJECT_STATUS.md (deploy + GA + estado Lighthouse)

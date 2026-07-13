@@ -1,6 +1,6 @@
 # Project Status
 
-**Last Updated:** 2026-07-11
+**Last Updated:** 2026-07-13
 
 ## Completion: ~100% (V1 Complete) + V1.1 Polish + Content Refinements
 
@@ -64,10 +64,14 @@ All 18 V1 tasks complete. React 19 + TS 6 + Vite 8 + Tailwind v4 + shadcn/ui. No
 | Scroll-triggered entrance animations | ✅ Done — Reveal/StaggerReveal on all pages |
 | Content refinements (title, images, wording, serivices→consulta, surgery mention) | ✅ Done — 2026-06-30 |
 | Blog content (20 new articles + typography + category filter + CTA + related posts) | ✅ Done — 2026-06-30 |
-| Replace GA placeholder ID | ⏳ Pending (needs real ID from doctor) |
+| Replace GA placeholder ID | ✅ Done — Measurement ID `G-51S46CPSE9` confirmed in index.html (2026-07-13); `15250766439` is the internal Stream ID, not used in the gtag snippet |
 | Confirm Schema.org `MedicalClinic` name + `Physician.telephone` | ⏳ Pending (needs doctor confirmation) |
-| Production Lighthouse audit | ⏳ Pending |
-| Optimize bundle size (HeroImage PNG ~1.1MB, JS ~691KB) | ⏳ Pending |
-| Deploy to Vercel | ⏳ Pending |
+| Production Lighthouse audit | ⏳ Pending — sandbox Chrome hangs; run PageSpeed Insights on live URL (ginecologiamendoza.com.ar) |
+| Optimize bundle size (HeroImage PNG ~660–702KB, JS 681KB/197KB gzip) | ⏳ Pending — JS inflated by eager MDX `import.meta.glob` (all 19 posts in main chunk) |
+| Deploy to Vercel | ✅ Done (user-deployed 2026-07-13) |
+| **Local SEO enrichment** — schema: `areaServed` (Mendoza/AR), `geo`, `openingHours`, `priceRange`, `hasCredential`, ES/EN `knowsAbout`; index.html: `x-default` hreflang, meta `geo.*`/`ICBM`, `theme-color`, `robots` | ✅ Done — 2026-07-13 |
+| Add Google Business Profile URL to `sameAs` (factor #1 de SEO local) | ⏳ Pending (needs real GBP URL) |
+| Verify `geo` coords match exact GBP pin | ⏳ Pending (verify -32.8908, -68.8272) |
+| Prerender SPA meta tags for faster indexing | ⏳ Pending (build-time, sin backend) |
 
 See [ROADMAP.md](./ROADMAP.md) for the full phased plan (V1.1 → Phase 7).
