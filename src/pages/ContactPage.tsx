@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { MapPin, Phone } from 'lucide-react'
+import { MapPin, Phone, Map } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import PageHelmet from '@/components/PageHelmet'
 import { Reveal, StaggerReveal, StaggerItem } from '@/components/ui/reveal'
@@ -49,6 +49,12 @@ export default function ContactPage() {
               <br />
               Mendoza, Argentina
             </p>
+            <Button size="sm" variant="outline" asChild>
+              <a href="#ubicacion">
+                <Map className="size-4" />
+                Ver en el mapa
+              </a>
+            </Button>
           </StaggerItem>
           <StaggerItem className="flex flex-col items-center gap-3 rounded-lg border border-border/40 bg-white p-6 text-center">
             <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
@@ -84,7 +90,7 @@ export default function ContactPage() {
         </Reveal>
 
         <Reveal>
-          <div className="mb-16">
+          <div id="ubicacion" className="mb-16 scroll-mt-20">
             <h2 className="mb-6 text-center text-3xl font-semibold tracking-tight sm:text-4xl">
               Ubicación
             </h2>
